@@ -1,0 +1,16 @@
+version: '3'
+services:
+  elk:
+    image: sebp/elk:568
+    container_name: elk
+    hostname: elk.javaone.cc
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044
+      - 9300:9300
+    environment:
+      - "TZ=Asia/Shanghai"
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    volumes:
+      - /media/jy/DATA/elk/:/var/lib/elasticsearch

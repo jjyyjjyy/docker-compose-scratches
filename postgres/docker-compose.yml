@@ -1,0 +1,14 @@
+version: '3'
+services:
+    postgresql:
+        image: postgres:10.4-alpine
+        container_name: postgresql
+        volumes:
+            - /media/jy/DATA/postgresql/data/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=postgresuser
+            - POSTGRES_PASSWORD=sonic333
+            - TZ=Asia/Shanghai
+        ports:
+            - 5432:5432
+        privileged: true
