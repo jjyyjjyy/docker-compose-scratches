@@ -3,7 +3,7 @@ services:
   app-portainer:
     container_name: portainer
     restart: always
-    image: portainer/portainer:1.19.1
+    image: portainer/portainer:1.19.2
     command: -H unix:///var/run/docker.sock
     ports:
       - 19000:9000
