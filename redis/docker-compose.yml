@@ -1,15 +1,11 @@
 version: '3'
 services:
-    app-redis:
-        image: redis:4.0.11-alpine
+    redis:
+        image: redis:alpine
         container_name: redis
         volumes:
             - ~/volumes/redis/data/:/data
-            - ~/volumes/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
-        command: redis-server --requirepass thisisredis --appendonly yes
+        command: redis-server --appendonly yes
         ports:
-            - 9999:6379
-        networks:
-            - redis
-networks:
-    redis:
+            - 6379:6379
+        network_mode: host

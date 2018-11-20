@@ -1,14 +1,8 @@
 version: '3'
 services:
     nexus:
-        image: sonatype/nexus3:3.13.0
+        image: sonatype/nexus3
         container_name: nexus
-        networks:
-           - nexus
-        ports:
-           - 8000:8081
+        network_mode: host
         volumes:
            - /data/softs/nexus:/nexus-data
-networks:
-    nexus:
-

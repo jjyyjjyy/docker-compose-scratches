@@ -1,7 +1,7 @@
 version: '3'
 services:
     postgresql:
-        image: postgres:10.5-alpine
+        image: postgres:alpine
         container_name: postgresql
         volumes:
             - ~/volumes/postgresql/:/var/lib/postgresql/data/
@@ -9,10 +9,4 @@ services:
             - POSTGRES_USER=jy
             - POSTGRES_PASSWORD=123456
             - TZ=Asia/Shanghai
-        ports:
-            - 5432:5432
-        networks:
-            - postgresql
-
-networks:
-    postgresql:
+        network_mode: host
