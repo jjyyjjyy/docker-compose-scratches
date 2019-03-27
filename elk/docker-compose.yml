@@ -1,18 +1,20 @@
 version: '3'
 services:
   elk:
-    image: sebp/elk:640
+    image: sebp/elk
     container_name: elk
     ports:
       - 5601:5601
       - 9200:9200
       - 5044:5044
       - 9300:9300
+      - 5000:5000
     environment:
       - "TZ=Asia/Shanghai"
       - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - 'input { tcp { port => 5000 codec => "json" } } output { elasticsearch { hosts => ["192.168.0.123"] index => "micro-%{serviceName}"} }'
     volumes:
-      - /mnt/data/elk/:/var/lib/elasticsearch
+      - ~/volumes/elk/:/var/lib/elasticsearch
     networks:
       - elk
 
