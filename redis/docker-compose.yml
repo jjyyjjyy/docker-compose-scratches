@@ -6,4 +6,10 @@ services:
         volumes:
             - ~/volumes/redis/data/:/data
         command: redis-server --appendonly yes
-        network_mode: host
+        networks:
+            - redis
+        ports:
+            - 6379:6379
+
+networks:
+    redis:

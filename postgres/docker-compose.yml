@@ -9,4 +9,10 @@ services:
             - POSTGRES_USER=jy
             - POSTGRES_PASSWORD=123456
             - TZ=Asia/Shanghai
-        network_mode: host
+        networks:
+            - postgres
+        ports:
+            - 5432:5432
+
+networks:
+    postgres:
