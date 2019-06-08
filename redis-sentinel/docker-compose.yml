@@ -1,0 +1,75 @@
+version: '3.7'
+services:
+    redis-master:
+        image: redis:alpine
+        container_name: redis-master
+        volumes:
+            - ./master.conf:/usr/local/etc/redis/redis.conf
+        command: redis-server /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 6379:6379
+    redis-replica1:
+        image: redis:alpine
+        container_name: redis-replica1
+        volumes:
+            - ./replica1.conf:/usr/local/etc/redis/redis.conf
+        command: redis-server /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 6380:6379
+        depends_on:
+            - redis-master
+    redis-replica2:
+        image: redis:alpine
+        container_name: redis-replica2
+        volumes:
+            - ./replica2.conf:/usr/local/etc/redis/redis.conf
+        command: redis-server /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 6381:6379
+        depends_on:
+            - redis-master
+    redis-sentinel1:
+        image: redis:alpine
+        container_name: redis-sentinel1
+        volumes:
+            - ./sentinel1.conf:/usr/local/etc/redis/redis.conf
+        command: redis-sentinel /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 16379:6379
+        depends_on:
+            - redis-master
+    redis-sentinel2:
+        image: redis:alpine
+        container_name: redis-sentinel2
+        volumes:
+            - ./sentinel2.conf:/usr/local/etc/redis/redis.conf
+        command: redis-sentinel /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 16380:6379
+        depends_on:
+            - redis-master
+    redis-sentinel3:
+        image: redis:alpine
+        container_name: redis-sentinel3
+        volumes:
+            - ./sentinel3.conf:/usr/local/etc/redis/redis.conf
+        command: redis-sentinel /usr/local/etc/redis/redis.conf
+        networks:
+            - redis
+        ports:
+            - 16381:6379
+        depends_on:
+            - redis-master
+
+networks:
+    redis:
