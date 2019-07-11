@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
     mongodb:
         image: mongo
@@ -10,7 +10,7 @@ services:
         ports:
             - 27017:27017
     elasticsearch:
-        image: elasticsearch:7.2.0
+        image: elasticsearch:6.8.1
         container_name: graylog_es
         volumes:
             - ~/volumes/graylog/es/:/usr/share/elasticsearch/data
@@ -34,10 +34,7 @@ services:
         container_name: graylog
         volumes:
             - ~/volumes/graylog/journal/:/usr/share/graylog/data/journal
-        environment:
-            - GRAYLOG_PASSWORD_SECRET=sonic333sonic333
-            - GRAYLOG_ROOT_PASSWORD_SHA2=d4eda3a3dbe632df70e4412fa513b56817541b5022e341995538443ae936060a
-            - GRAYLOG_HTTP_EXTERNAL_URI=http://0.0.0.0:9000/
+            - ./config:/usr/share/graylog/data/config
         links:
             - mongodb:mongo
             - elasticsearch
