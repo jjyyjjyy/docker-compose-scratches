@@ -1,9 +1,10 @@
-version: '3'
+version: '3.7'
 services:
     prometheus:
-           image: prom/prometheus
-           container_name: prometheus
-           volumes:
-              - ~/volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-              - ~/volumes/prometheus/:/prometheus/
-           network_mode: host
+        image: prom/prometheus
+        container_name: prometheus
+        volumes:
+            - /data/softs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - /data/softs/prometheus/:/prometheus/
+        restart: always
+        network_mode: host
