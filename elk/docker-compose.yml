@@ -1,22 +1,69 @@
 version: '3'
 services:
-  elk:
-    image: sebp/elk
-    container_name: elk
-    ports:
-      - 5601:5601
-      - 9200:9200
-      - 5044:5044
-      - 9300:9300
-      - 5000:5000
-    environment:
-      - "TZ=Asia/Shanghai"
-      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
-      - 'input { tcp { port => 5000 codec => "json" } } output { elasticsearch { hosts => ["192.168.0.123"] index => "micro-%{serviceName}"} }'
-    volumes:
-      - ~/volumes/elk/:/var/lib/elasticsearch
-    networks:
-      - elk
-
+    es01:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        container_name: es01
+        environment:
+            - node.name=es01
+            - discovery.seed_hosts=es02,es03
+            - cluster.initial_master_nodes=es01
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ~/volumes/es/data01:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+        networks:
+            - esnet
+    es02:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        container_name: es02
+        environment:
+            - node.name=es02
+            - discovery.seed_hosts=es01,es03
+            - cluster.initial_master_nodes=es01
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ~/volumes/es/data02:/usr/share/elasticsearch/data
+        networks:
+            - esnet
+    es03:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        container_name: es03
+        environment:
+            - node.name=es03
+            - discovery.seed_hosts=es01,es02
+            - cluster.initial_master_nodes=es01
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ~/volumes/es/data03:/usr/share/elasticsearch/data
+        networks:
+            - esnet
+    kibana:
+        container_name: kibana
+        image: kibana:7.4.0
+        volumes:
+            - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+        ports:
+            - 5601:5601
+        networks:
+            - esnet
 networks:
-    elk:
+    esnet:
