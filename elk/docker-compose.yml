@@ -1,7 +1,7 @@
 version: '3'
 services:
     es01:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        image: elasticsearch:7.4.0
         container_name: es01
         environment:
             - node.name=es01
@@ -10,6 +10,8 @@ services:
             - cluster.name=docker-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+            - ELASTIC_PASSWORD=sonic333
+            - xpack.security.enabled=true
         ulimits:
             memlock:
                 soft: -1
@@ -17,11 +19,11 @@ services:
         volumes:
             - ~/volumes/es/data01:/usr/share/elasticsearch/data
         ports:
-            - 9200:9200
+            - 19200:9200
         networks:
             - esnet
     es02:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        image: elasticsearch:7.4.0
         container_name: es02
         environment:
             - node.name=es02
@@ -30,6 +32,8 @@ services:
             - cluster.name=docker-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+            - ELASTIC_PASSWORD=sonic333
+            - xpack.security.enabled=true
         ulimits:
             memlock:
                 soft: -1
@@ -39,7 +43,7 @@ services:
         networks:
             - esnet
     es03:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+        image: elasticsearch:7.4.0
         container_name: es03
         environment:
             - node.name=es03
@@ -48,6 +52,8 @@ services:
             - cluster.name=docker-cluster
             - bootstrap.memory_lock=true
             - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+            - ELASTIC_PASSWORD=sonic333
+            - xpack.security.enabled=true
         ulimits:
             memlock:
                 soft: -1
@@ -60,10 +66,13 @@ services:
         container_name: kibana
         image: kibana:7.4.0
         environment:
+            - xpack.security.enabled=true
+            - ELASTICSEARCH_HOSTS=http://es01:19200
+            - ELASTICSEARCH_USERNAME=elastic
+            - ELASTICSEARCH_PASSWORD=sonic333
             - XPACK_GRAPH_ENABLED=true
             - TIMELION_ENABLED=true
             - XPACK_MONITORING_COLLECTION_ENABLED="true"
-            - ELASTICSEARCH_HOSTS=http://es01:9200
             - SERVER_HOST=0.0.0.0
             - LOGGING_TIMEZONE=Asia/Shanghai
         ports:
@@ -76,7 +85,7 @@ services:
         ports:
             - 9000:9000
         command:
-            - -Dhosts.0.host=http://es01:9200
+            - -Dhosts.0.host=http://es01:19200
         networks:
             - esnet
 networks:
