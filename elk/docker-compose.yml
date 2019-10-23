@@ -67,7 +67,7 @@ services:
         image: kibana:7.4.0
         environment:
             - xpack.security.enabled=true
-            - ELASTICSEARCH_HOSTS=http://es01:19200
+            - ELASTICSEARCH_HOSTS=http://es01:9200
             - ELASTICSEARCH_USERNAME=elastic
             - ELASTICSEARCH_PASSWORD=sonic333
             - XPACK_GRAPH_ENABLED=true
@@ -85,7 +85,7 @@ services:
         ports:
             - 9000:9000
         command:
-            - -Dhosts.0.host=http://es01:19200
+            - -Dhosts.0.host=http://es01:9200
         networks:
             - esnet
 networks:
