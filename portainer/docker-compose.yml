@@ -13,5 +13,5 @@ services:
     networks:
       - portainer
 networks:
-    portainer:
+  portainer:
 

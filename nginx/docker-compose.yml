@@ -1,14 +1,14 @@
 version: "3"
 services:
   app-nginx:
-      image: nginx
-      hostname: ng.javaone.cc
-      container_name: my_nginx
-      ports:
-         - "80:80"
-         - "8443:443"
-      volumes:
-         -  ~/volumes/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-         -  ~/volumes/nginx/html/:/usr/share/nginx/html/
-         -  ~/volumes/nginx/conf.d/:/etc/nginx/conf.d/
-         -  ~/volumes/nginx/ssl/:/etc/nginx/ssl/
+    image: nginx
+    hostname: ng.javaone.cc
+    container_name: my_nginx
+    ports:
+      - "80:80"
+      - "8443:443"
+    volumes:
+      - ~/volumes/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ~/volumes/nginx/html/:/usr/share/nginx/html/
+      - ~/volumes/nginx/conf.d/:/etc/nginx/conf.d/
+      - ~/volumes/nginx/ssl/:/etc/nginx/ssl/

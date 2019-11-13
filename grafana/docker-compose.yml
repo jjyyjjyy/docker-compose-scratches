@@ -1,13 +1,13 @@
 version: '3.7'
 services:
-    grafana:
-        image: grafana/grafana
-        container_name: grafana
-        ports:
-            - 4000:3000
-        networks:
-            - grafana
-        volumes:
-            - ~/volumes/grafana/:/var/lib/grafana
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 4000:3000
+    networks:
+      - grafana
+    volumes:
+      - ~/volumes/grafana/:/var/lib/grafana
 networks:
-    grafana:
+  grafana:

@@ -1,11 +1,11 @@
 version: '3'
 services:
-        zookeeper:
-                image: zookeeper:3.5
-                container_name: zookeeper
-                ports:
-                    - 2181:2181
-                networks:
-                    - zk
+  zookeeper:
+    image: zookeeper:3.5
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - zk
 networks:
-    zk:
+  zk:

@@ -1,10 +1,25 @@
 version: '3.7'
 services:
-    prometheus:
-        image: prom/prometheus
-        container_name: prometheus
-        volumes:
-            - /data/softs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-            - /data/softs/prometheus/:/prometheus/
-        restart: always
-        network_mode: host
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alertmanager_rules.yml:/etc/prometheus/alertmanager_rules.yml
+      - ./data/:/prometheus/
+    ports:
+      - 9090:9090
+    networks:
+      - promethus
+
+  altermanager:
+    image: prom/alertmanager
+    container_name: altermanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - 9093:9093
+    networks:
+      - promethus
+networks:
+  promethus:

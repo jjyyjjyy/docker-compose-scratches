@@ -1,13 +1,13 @@
 version: '3'
 services:
   superset:
-     image: amancevice/superset
-     container_name: superset
-     ports:
-       - 8088:8088
-     environment:
-       - TZ=Aisa/Shanghai
-     volumes:
-       - /etc/localtime:/etc/localtime:ro
-       - /etc/timezone:/etc/timezone:ro
-       - ~/volumes/superset/:/home/superset
+    image: amancevice/superset
+    container_name: superset
+    ports:
+      - 8088:8088
+    environment:
+      - TZ=Aisa/Shanghai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ~/volumes/superset/:/home/superset

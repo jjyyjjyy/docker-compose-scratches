@@ -1,0 +1,17 @@
+groups:
+  - name: instance-down
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 10s
+        annotations:
+          summary: "{{$labels.job}}异常"
+          description: "{{$labels.job}}服务异常: {{$labels.instance}} 已下线!"
+  - name: oom
+    rules:
+      - alert: UsedPlentyOfMemory
+        expr: round(sum(jvm_memory_used_bytes /1024 / 1024) by (job, instance))   > 100
+        for: 10s
+        annotations:
+          summary: "{{$labels.job}}异常"
+          description: "{{$labels.job}}服务内存飙升: {{$labels.instance}} 内存使用量: {{$value}} Mb "
