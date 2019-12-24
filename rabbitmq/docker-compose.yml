@@ -9,4 +9,4 @@ services:
       RABBITMQ_DEFAULT_VHOST: dev
     network_mode: host
     volumes:
-      - ~/volumes/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./:/var/lib/rabbitmq/
