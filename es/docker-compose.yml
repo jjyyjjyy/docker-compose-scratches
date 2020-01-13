@@ -1,0 +1,114 @@
+version: '3'
+services:
+  es01:
+    container_name: es01
+    image: elasticsearch:$VERSION
+    environment:
+      - node.name=es01
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - ELASTIC_PASSWORD=sonic333
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.http.ssl.key=$CERTS_DIR/es01/es01.key
+      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.http.ssl.certificate=$CERTS_DIR/es01/es01.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=$CERTS_DIR/es01/es01.key
+      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.transport.ssl.certificate=$CERTS_DIR/es01/es01.crt
+      - TZ=Asia/Shanghai
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/volumes/es/data01:/usr/share/elasticsearch/data
+      - ./certs:$CERTS_DIR
+    ports:
+      - 19200:9200
+    networks:
+      - esnet
+  es02:
+    container_name: es02
+    image: elasticsearch:$VERSION
+    environment:
+      - node.name=es02
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.http.ssl.key=$CERTS_DIR/es02/es02.key
+      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.http.ssl.certificate=$CERTS_DIR/es02/es02.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=$CERTS_DIR/es02/es02.key
+      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.transport.ssl.certificate=$CERTS_DIR/es02/es02.crt
+      - TZ=Asia/Shanghai
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/volumes/es/data02:/usr/share/elasticsearch/data
+      - ./certs:$CERTS_DIR
+    networks:
+      - esnet
+  es03:
+    container_name: es03
+    image: elasticsearch:$VERSION
+    environment:
+      - node.name=es03
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.verification_mode=certificate
+      - xpack.security.http.ssl.key=$CERTS_DIR/es03/es03.key
+      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.http.ssl.certificate=$CERTS_DIR/es03/es03.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.key=$CERTS_DIR/es03/es03.key
+      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.transport.ssl.certificate=$CERTS_DIR/es03/es03.crt
+      - TZ=Asia/Shanghai
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/volumes/es/data03:/usr/share/elasticsearch/data
+      - ./certs:$CERTS_DIR
+    networks:
+      - esnet
+  kibana:
+    container_name: kibana
+    image: kibana:$VERSION
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./certs:/certs
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
+networks:
+  esnet:

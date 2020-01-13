@@ -1,0 +1,29 @@
+instances:
+  - name: kibana
+    dns:
+      - kibana
+      - localhost
+    ip:
+      - 127.0.0.1
+      - 192.168.0.225
+  - name: es01
+    dns:
+      - es01
+      - localhost
+    ip:
+      - 127.0.0.1
+      - 192.168.0.225
+  - name: es02
+    dns:
+      - es02
+      - localhost
+    ip:
+      - 127.0.0.1
+      - 192.168.0.225
+  - name: es03
+    dns:
+      - es03
+      - localhost
+    ip:
+      - 127.0.0.1
+      - 192.168.0.225
