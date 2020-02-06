@@ -110,5 +110,20 @@ services:
       - 5601:5601
     networks:
       - esnet
+  logstash:
+    image: logstash:$VERSION
+    container_name: logstash
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./certs:/certs
+      - ./logstash/:/usr/share/logstash/pipeline/
+      - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+      - 4560:4560
+      - 9600:9600
+    networks:
+      - esnet
+
 networks:
   esnet:

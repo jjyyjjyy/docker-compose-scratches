@@ -6,6 +6,13 @@ instances:
     ip:
       - 127.0.0.1
       - 192.168.0.225
+  - name: logstash
+    dns:
+      - logstash
+      - localhost
+    ip:
+      - 127.0.0.1
+      - 192.168.0.225
   - name: es01
     dns:
       - es01
