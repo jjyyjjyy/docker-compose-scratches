@@ -1,0 +1,19 @@
+version: "3"
+services:
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - 3100:3100
+    networks:
+      - loki
+  promtail:
+    container_name: promtail
+    image: grafana/promtail
+    volumes:
+      - ./log/:/var/log
+    networks:
+      - loki
+
+networks:
+  loki:

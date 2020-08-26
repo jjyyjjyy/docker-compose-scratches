@@ -1,12 +1,18 @@
 version: "3"
 services:
   nacos:
-    image: nacos/nacos-server:1.2.0
+    image: nacos/nacos-server
     container_name: nacos-server
-    network_mode: host
+    ports:
+      - 8848:8848
+    networks:
+      - nacos
     environment:
       - MODE=standalone
       - NACOS_AUTH_ENABLE=true
     volumes:
       - ~/volumes/nacos/standalone-logs/:/home/nacos/logs
       - ~/volumes/nacos/init.d/:/home/nacos/init.d/
+
+networks:
+  nacos:

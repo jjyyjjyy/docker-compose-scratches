@@ -9,7 +9,7 @@ services:
     networks:
       - clickhouse
     environment:
-      - CLICKHOUSE_PASSWORD=123123
+      - TZ=Asia/Shanghai
     volumes:
       - ~/volumes/clickhouse/:/var/lib/clickhouse
       - ./users.xml:/etc/clickhouse-server/users.xml
