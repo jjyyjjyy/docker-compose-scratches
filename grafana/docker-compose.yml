@@ -3,11 +3,6 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana
-    ports:
-      - 4000:3000
-    networks:
-      - grafana
+    network_mode: host
     volumes:
       - ~/volumes/grafana/:/var/lib/grafana
-networks:
-  grafana:
