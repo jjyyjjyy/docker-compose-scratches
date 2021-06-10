@@ -1,0 +1,94 @@
+version: '3'
+services:
+  redis7001:
+    image: redis:alpine
+    container_name: redis7001
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7001:7001
+      - 17001:17001
+    volumes:
+      - ./7001/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7001/data:/data
+
+  redis7002:
+    image: redis:alpine
+    container_name: redis7002
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7002:7002
+      - 17002:17002
+    volumes:
+      - ./7002/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7002/data:/data
+
+  redis7003:
+    image: redis:alpine
+    container_name: redis7003
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7003:7003
+      - 17003:17003
+    volumes:
+      - ./7003/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7003/data:/data
+
+  redis7004:
+    image: redis:alpine
+    container_name: redis7004
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7004:7004
+      - 17004:17004
+    volumes:
+      - ./7004/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7004/data:/data
+
+  redis7005:
+    image: redis:alpine
+    container_name: redis7005
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7005:7005
+      - 17005:17005
+    volumes:
+      - ./7005/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7005/data:/data
+
+  redis7006:
+    image: redis:alpine
+    container_name: redis7006
+    command: redis-server /etc/redis/redis.conf
+    environment:
+      - TZ=Asia/Shanghai
+    networks:
+      - redis-cluster
+    ports:
+      - 7006:7006
+      - 17006:17006
+    volumes:
+      - ./7006/conf/redis.conf:/etc/redis/redis.conf
+      - $DATA_PATH/7006/data:/data
+
+networks:
+  redis-cluster:
