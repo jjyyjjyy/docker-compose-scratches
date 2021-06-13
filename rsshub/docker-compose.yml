@@ -1,0 +1,31 @@
+version: '3'
+services:
+  rsshub:
+    image: diygod/rsshub
+    container_name: rsshub
+    restart: always
+    network_mode: host
+    environment:
+      - NODE_ENV=production
+      - CACHE_TYPE=redis
+      - ACCESS_KEY=123123
+      - 'REDIS_URL=redis://localhost:6379/1'
+      - 'PUPPETEER_WS_ENDPOINT=ws://localhost:4000'
+    depends_on:
+      - browserless
+
+  browserless:
+    image: browserless/chrome:1-chrome-stable
+    container_name: browserless
+    restart: always
+    networks:
+      - rsshub
+    ports:
+      - 4000:3000
+    ulimits:
+      core:
+        hard: 0
+        soft: 0
+
+networks:
+  rsshub:
