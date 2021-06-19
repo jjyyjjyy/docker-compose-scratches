@@ -1,0 +1,8 @@
+version: '3'
+services:
+  consul:
+    image: consul
+    container_name: consul
+    network_mode: host
+    volumes:
+      - ./data/:/consul/data/

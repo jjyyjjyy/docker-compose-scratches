@@ -1,0 +1,33 @@
+version: '3'
+services:
+  rocketmq-nameservice:
+    container_name: rocketmq-nameservice
+    image: foxiswho/rocketmq:4.8.0
+    command: [ "sh","mqnamesrv" ]
+    network_mode: host
+    volumes:
+      - ./nameservice/logs:/home/rocketmq/logs
+      - ./nameservice/store:/home/rocketmq/store
+    environment:
+      - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq -Xms4g -Xmx4g -Xmn1g"
+  rocketmq-broker:
+    container_name: rocketmq-broker
+    image: foxiswho/rocketmq:4.8.0
+    command: [ "sh","mqbroker","-c","/etc/rocketmq/broker.conf","-n","localhost:9876","autoCreateTopicEnable=true" ]
+    network_mode: host
+    volumes:
+      - ./broker/logs:/home/rocketmq/logs
+      - ./broker/store:/home/rocketmq/store
+      - ./broker.conf:/etc/rocketmq/broker.conf
+    environment:
+      - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq"
+    depends_on:
+      - rocketmq-nameservice
+  rocketmq-console:
+    container_name: rocketmq-console
+    image: styletang/rocketmq-console-ng
+    network_mode: host
+    environment:
+      - "JAVA_OPTS=-Dserver.port=8084  -Drocketmq.namesrv.addr=localhost:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+    depends_on:
+      - rocketmq-nameservice

@@ -3,7 +3,7 @@
 data=${1:-.}
 echo "DATA_PATH=${data}" >.env
 
-ip=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+ip=$(hostname -i | tr " " "\n" | head -1)
 for port in $(seq 7001 7006); do
   mkdir -p "./${port}/conf" &&
     PORT=${port} IP=${ip} envsubst <./redis-cluster.conf >"./${port}/conf/redis.conf" &&

@@ -1,26 +1,29 @@
-version: '2'
+version: '3'
 services:
-  zookeeper:
-    image: zookeeper
-    container_name: zookeeper
-    ports:
-      - 2181:2181
-    networks:
-      - kafka
-    volumes:
-      - ~/volumes/zookeeper/data/:/data
-      - ~/volumes/zookeeper/datalog/:/datalog
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
-    ports:
-      - 9092:9092
-    networks:
-      - kafka
+    network_mode: host
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.124.32
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
     volumes:
       - ~/volumes/kafka/:/kafka
-networks:
-  kafka:
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    network_mode: host
+    environment:
+      - ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+    volumes:
+      - ~/volumes/zookeeper/data/:/data/
+      - ~/volumes/zookeeper/datalog/:/datalog/
+      - ~/volumes/zookeeper/logs/:/logs/
+  kafka-gui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    environment:
+      - SERVER_PORT=9192
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=localhost:9092
+    network_mode: host
