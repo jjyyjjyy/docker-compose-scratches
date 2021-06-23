@@ -5,5 +5,5 @@ services:
     image: grafana/loki
     network_mode: host
     volumes:
-      - ~/volumes/loki:/loki
+      - ~/volumes/loki/:/loki/
     command: -config.file=/etc/loki/local-config.yaml

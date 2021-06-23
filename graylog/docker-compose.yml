@@ -4,6 +4,12 @@ services:
     image: graylog/graylog:4.0
     container_name: graylog
     volumes:
-      - ./data/:/usr/share/graylog/data/
-      - ./plugin/:/usr/share/graylog/plugin/
+      - ~/volumes/graylog/certs/graylog.jks:/usr/share/graylog/certs/graylog.jks
+      - ~/volumes/graylog/config/:/usr/share/graylog/data/config/
+      - ~/volumes/graylog/data/:/usr/share/graylog/data/
+      - ~/volumes/graylog/plugin/:/usr/share/graylog/plugin/
+      - ~/volumes/graylog/db/:/usr/share/graylog/db/
+    restart: always
     network_mode: host
+    environment:
+      - "GRAYLOG_SERVER_JAVA_OPTS=-Djavax.net.ssl.trustStore=/usr/share/graylog/certs/graylog.jks -Djavax.net.ssl.trustStorePassword=123123123"

@@ -1,8 +1,11 @@
-version: '3.7'
+version: '3'
 services:
   grafana:
     image: grafana/grafana
     container_name: grafana
     network_mode: host
+    environment:
+      - TZ=PRC
     volumes:
-      - ~/volumes/grafana/:/var/lib/grafana
+      - ~/volumes/grafana/data/:/var/lib/grafana/
+      - ~/volumes/grafana/plugins/:/var/lib/grafana/plugins/

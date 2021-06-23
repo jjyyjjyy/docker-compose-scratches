@@ -5,32 +5,32 @@ instances:
       - localhost
     ip:
       - 127.0.0.1
-      - 192.168.0.225
+      - 192.168.124.4
   - name: logstash
     dns:
       - logstash
       - localhost
     ip:
       - 127.0.0.1
-      - 192.168.0.225
+      - 192.168.124.4
   - name: es01
     dns:
       - es01
       - localhost
     ip:
       - 127.0.0.1
-      - 192.168.0.225
+      - 192.168.124.4
   - name: es02
     dns:
       - es02
       - localhost
     ip:
       - 127.0.0.1
-      - 192.168.0.225
+      - 192.168.124.4
   - name: es03
     dns:
       - es03
       - localhost
     ip:
       - 127.0.0.1
-      - 192.168.0.225
+      - 192.168.124.4
