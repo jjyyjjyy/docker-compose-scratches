@@ -5,7 +5,7 @@ services:
     container_name: kafka
     network_mode: host
     environment:
-      - KAFKA_ADVERTISED_HOST_NAME=localhost
+      - KAFKA_ADVERTISED_HOST_NAME=192.168.3.254
       - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
     volumes:
       - ~/volumes/kafka/:/kafka
@@ -13,8 +13,6 @@ services:
     image: zookeeper
     container_name: zookeeper
     network_mode: host
-    environment:
-      - ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
     volumes:
       - ~/volumes/zookeeper/data/:/data/
       - ~/volumes/zookeeper/datalog/:/datalog/

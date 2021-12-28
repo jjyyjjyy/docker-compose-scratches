@@ -3,7 +3,7 @@
 data=${1:-.}
 echo "DATA_PATH=${data}" >.env
 
-ip=$(hostname -i | tr " " "\n" | head -1)
+ip=$(hostname -I | tr " " "\n" | head -1)
 for port in $(seq 7001 7006); do
   mkdir -p "./${port}/conf" &&
     PORT=${port} IP=${ip} envsubst <./redis-cluster.conf >"./${port}/conf/redis.conf" &&
