@@ -1,0 +1,19 @@
+version: "3"
+services:
+  metube:
+    image: alexta69/metube
+    container_name: metube
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - DOWNLOAD_DIR=/downloads/videos
+      - AUDIO_DOWNLOAD_DIR=/downloads/audios
+      - DOWNLOAD_DIRS_INDEXABLE=true
+      - DELETE_FILE_ON_TRASHCAN=true
+      - 'OUTPUT_TEMPLATE=%(playlist_title&Playlist |)S%(playlist_title|)S%(playlist_uploader& by |)S%(playlist_uploader|)S%(playlist_autonumber& - |)S%(playlist_autonumber|)S%(playlist_count& of |)S%(playlist_count|)S%(playlist_autonumber& - |)S%(uploader,creator|UNKNOWN_AUTHOR)S - %(title|UNKNOWN_TITLE)S - %(release_date>%Y-%m-%d,upload_date>%Y-%m-%d|UNKNOWN_DATE)S.%(ext)s'
+      - YTDL_OPTIONS={"cookiefile":"/cookies/cookies.txt"}
+    volumes:
+      - /mnt/data/metube/videos/:/downloads/videos
+      - /mnt/data/metube/audios/:/downloads/audios
+      - /mnt/data/metube/cookies/:/cookies
+      - /mnt/data/navidrome/music/metube:/downloads/audios/metube/

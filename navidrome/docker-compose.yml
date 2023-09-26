@@ -1,0 +1,16 @@
+version: "3"
+services:
+  navidrome:
+    image: deluan/navidrome
+    container_name: navidrome
+    user: 1000:1000
+    restart: unless-stopped
+    environment:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: ""
+    network_mode: host
+    volumes:
+      - /mnt/data/navidrome/data:/data
+      - /mnt/data/navidrome/music:/music
