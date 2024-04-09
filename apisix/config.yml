@@ -1,0 +1,39 @@
+apisix:
+  node_listen: # APISIX listening ports.
+    - 9080
+  enable_admin: true           # Admin API
+  enable_dev_mode: false       # If true, set nginx `worker_processes` to 1.
+  enable_reuseport: true       # If true, enable nginx SO_REUSEPORT option.
+  show_upstream_status_in_response_header: true  # If true, include the upstream HTTP status code in
+    # the response header `X-APISIX-Upstream-Status`.
+  # If false, show `X-APISIX-Upstream-Status` only if
+  # the upstream response code is 5xx.
+  enable_ipv6: false
+  enable_http2: false
+
+  ssl:
+    enable: false
+
+  enable_control: false  # Control API
+
+deployment: # Deployment configurations
+  admin: # Admin API
+    admin_key_required: true   # Enable Admin API authentication by default for security.
+    admin_key:
+      - name: admin                             # admin: write access to configurations.
+        key: edd1c9f034335f136f87ad84b625c8f1   # Set API key for the admin of Admin API.
+        role: admin
+
+  etcd:
+    host: # Set etcd address(es) in the same etcd cluster.
+      - "http://127.0.0.1:2379"   # If TLS is enabled for etcd, use https://127.0.0.1:2379.
+    prefix: /apisix               # Set etcd prefix.
+    timeout: 30                   # The timeout when connect/read/write to etcd, Set timeout in seconds.
+    watch_timeout: 50             # The timeout when watch etcd
+    startup_retry: 2              # Set the number of retries to etcd on startup. Default to 2.
+    # user: root                  # Set the root username for etcd.
+    # password: 5tHkHhYkjr6cQ     # Set the root password for etcd.
+    tls:
+      # cert: /path/to/cert       # Set the path to certificate used by the etcd client
+      # key: /path/to/key         # Set the path to path of key used by the etcd client
+      verify: false                # Verify the etcd certificate when establishing a TLS connection with etcd.

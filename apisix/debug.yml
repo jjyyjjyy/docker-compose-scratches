@@ -1,0 +1,17 @@
+basic:
+  enable: true
+http_filter:
+  enable: false         # enable or disable this feature
+  enable_header_name: X-APISIX-Dynamic-Debug # the header name of dynamic enable
+hook_conf:
+  enable: true                 # enable or disable this feature
+  name: hook_phase              # the name of module and function list
+  log_level: warn               # log level
+  is_print_input_args: true     # print the input arguments
+  is_print_return_value: true   # print the return value
+
+hook_phase: # module and function list, name: hook_phase
+  resty.redis:
+    - set
+    - get
+#END

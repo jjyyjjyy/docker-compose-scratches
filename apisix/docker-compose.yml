@@ -1,0 +1,36 @@
+version: "3"
+services:
+  apisix:
+    container_name: apisix
+    image: apache/apisix
+    network_mode: host
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./config.yml:/usr/local/apisix/conf/config.yaml:ro
+      - ./debug.yml:/usr/local/apisix/conf/debug.yaml:ro
+      - ./logs/:/usr/local/apisix/logs/
+    depends_on:
+      - etcd
+  dashboard:
+    container_name: apisix-dashboard
+    image: apache/apisix-dashboard
+    restart: always
+    network_mode: host
+    volumes:
+      - ./dashboard.yml:/usr/local/apisix-dashboard/conf/conf.yaml:ro
+    depends_on:
+      - etcd
+  etcd:
+    image: bitnami/etcd
+    container_name: etcd
+    restart: always
+    network_mode: host
+    volumes:
+      - ./etcd/:/bitnami/etcd
+    environment:
+      ETCD_ENABLE_V2: "true"
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://localhost:2379"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
