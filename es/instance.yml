@@ -3,34 +3,39 @@ instances:
     dns:
       - kibana
       - localhost
+      - workstation.local
     ip:
       - 127.0.0.1
-      - 192.168.124.4
+      - 192.168.0.113
   - name: logstash
     dns:
       - logstash
       - localhost
+      - workstation.local
     ip:
       - 127.0.0.1
-      - 192.168.124.4
+      - 192.168.0.113
   - name: es01
     dns:
       - es01
       - localhost
+      - workstation.local
     ip:
       - 127.0.0.1
-      - 192.168.124.4
+      - 192.168.0.113
   - name: es02
     dns:
       - es02
       - localhost
+      - workstation.local
     ip:
       - 127.0.0.1
-      - 192.168.124.4
+      - 192.168.0.113
   - name: es03
     dns:
       - es03
       - localhost
+      - workstation.local
     ip:
       - 127.0.0.1
-      - 192.168.124.4
+      - 192.168.0.113

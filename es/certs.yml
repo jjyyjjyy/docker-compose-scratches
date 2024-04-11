@@ -5,9 +5,10 @@ services:
     image: elasticsearch:$VERSION
     command: >
       bash -c '
-        yum install -y -q -e 0 unzip;
         if [[ ! -f /certs/bundle.zip ]]; then
-          bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
+          bin/elasticsearch-certutil ca --pem -out /certs/ca.zip --days 36500 -s;
+          unzip /certs/ca.zip -d /certs;
+          bin/elasticsearch-certutil cert -s --pem --ca-cert /certs/ca/ca.crt --ca-key /certs/ca/ca.key --in config/certificates/instances.yml -out /certs/bundle.zip;
           unzip /certs/bundle.zip -d /certs;
         fi;
         chown -R 1000:0 /certs

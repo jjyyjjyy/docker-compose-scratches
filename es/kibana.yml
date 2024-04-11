@@ -5,29 +5,10 @@ server:
 elasticsearch:
   hosts:
     - https://es01:9200
-  username: elastic
-  password: "123123123"
+  # bin/elasticsearch-service-tokens create elastic/kibana kibana
+  serviceAccountToken: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYTpWSFdRSXVxVFNRcXFVSm94VTlKQ1h3"
   ssl:
     verificationMode: certificate
     certificateAuthorities: /certs/ca/ca.crt
     certificate: /certs/es01/es01.crt
     key: /certs/es01/es01.key
-logging:
-  timezone: Asia/Shanghai
-timelion:
-  enabled: true
-xpack:
-  graph:
-    enabled: true
-  monitoring:
-    ui:
-      container:
-        elasticsearch:
-          enabled: true
-    elasticsearch:
-      ssl:
-        certificateAuthorities: /certs/ca/ca.crt
-      hosts:
-        - https://es01:9200
-  security:
-    enabled: true
