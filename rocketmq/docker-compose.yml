@@ -1,28 +1,55 @@
-version: '3'
 services:
   rocketmq-nameservice:
     container_name: rocketmq-nameservice
-    image: apache/rocketmq:4.9.4
+    image: apache/rocketmq
     command: [ "sh","mqnamesrv" ]
     network_mode: host
     volumes:
-      - ./nameservice/logs:/home/rocketmq/logs
-      - ./nameservice/store:/home/rocketmq/store
+      - /mnt/data/rocketmq/nameservice/logs:/home/rocketmq/logs
+      - /mnt/data/rocketmq/nameservice/store:/home/rocketmq/store
     environment:
       - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq -Xms2g -Xmx2g -Xmn1g"
-  rocketmq-broker:
-    container_name: rocketmq-broker
-    image: apache/rocketmq:4.9.4
+  rocketmq-broker0:
+    container_name: rocketmq-broker0
+    image: apache/rocketmq
     command: [ "sh","mqbroker","-c","/etc/rocketmq/broker.conf","-n","localhost:9876" ]
     network_mode: host
     volumes:
-      - ./broker/logs:/home/rocketmq/logs
-      - ./broker/store:/home/rocketmq/store
-      - ./broker.conf:/etc/rocketmq/broker.conf
+      - ./broker0.conf:/etc/rocketmq/broker.conf
+      - /mnt/data/rocketmq/broker0/logs:/home/rocketmq/logs
+      - /mnt/data/rocketmq/broker0/store:/home/rocketmq/store
     environment:
       - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq -Xms2g -Xmx2g -Xmn1g"
     depends_on:
       - rocketmq-nameservice
+  rocketmq-broker1:
+    container_name: rocketmq-broker1
+    image: apache/rocketmq
+    command: [ "sh","mqbroker","-c","/etc/rocketmq/broker.conf","-n","localhost:9876" ]
+    network_mode: host
+    volumes:
+      - ./broker1.conf:/etc/rocketmq/broker.conf
+      - /mnt/data/rocketmq/broker1/logs:/home/rocketmq/logs
+      - /mnt/data/rocketmq/broker1/store:/home/rocketmq/store
+    environment:
+      - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq -Xms2g -Xmx2g -Xmn1g"
+    depends_on:
+      - rocketmq-nameservice
+  proxy:
+    image: apache/rocketmq
+    container_name: rocketmq-proxy
+    depends_on:
+      - rocketmq-nameservice
+      - rocketmq-broker0
+      - rocketmq-broker1
+    network_mode: host
+    environment:
+      - NAMESRV_ADDR=localhost:9876
+      - "JAVA_OPT_EXT=-Duser.home=/home/rocketmq -Xms2g -Xmx2g -Xmn1g"
+    volumes:
+      - ./proxy.json:/home/rocketmq/conf/rmq-proxy.json
+      - /mnt/data/rocketmq/proxy/logs:/home/rocketmq/logs
+    command: sh mqproxy -pc /home/rocketmq/conf/rmq-proxy.json
   rocketmq-dashboard:
     container_name: rocketmq-dashboard
     image: apacherocketmq/rocketmq-dashboard
@@ -31,3 +58,5 @@ services:
       - "JAVA_OPTS=-Dserver.port=8084 -Drocketmq.namesrv.addr=localhost:9876"
     depends_on:
       - rocketmq-nameservice
+      - rocketmq-broker0
+      - rocketmq-broker1
