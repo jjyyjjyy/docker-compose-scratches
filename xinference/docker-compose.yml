@@ -1,0 +1,12 @@
+services:
+  xinference:
+    image: xprobe/xinference:latest-cpu
+    container_name: xinference
+    restart: always
+    command: xinference-local -H 0.0.0.0
+    network_mode: "host"
+    environment:
+      - XINFERENCE_MODEL_SRC=modelscope
+      - XINFERENCE_HOME=/data/
+    volumes:
+      - /mnt/data/xinference_data:/data
